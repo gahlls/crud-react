@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import Main from '../template/Main';
+import Main from '../template/Main'
+import UserForm from './UserForm'
+import UserTable from './UserTable'
 
 const headerProps = {
     icon: 'users',
@@ -52,54 +54,8 @@ export default class UserCrud extends Component {
         this.setState({ user })
     }
 
-    renderForm() {
-        return (
-            <div className="form">
-                <div className="row">
-                    <div className="col-12 col-md-6">
-                        <div className="form-group">
-                            <label>Name</label>
-                            <input type="text" className="form-control"
-                                name="name"
-                                value={this.state.user.name}
-                                onChange={e => this.updateField(e)}
-                                placeholder="Enter name..." />
-                        </div>
-                    </div>
-
-                    <div className="col-12 col-md-6">
-                        <div className="form-group">
-                            <label>Email</label>
-                            <input type="text" className="form-control"
-                                name="email"
-                                value={this.state.user.email}
-                                onChange={e => this.updateField(e)}
-                                placeholder="Enter email..." />
-                        </div>
-                    </div>
-                </div>
-
-                <hr />
-                <div className="row">
-                    <div className="col-12 d-flex justify-content-end">
-                        <button className="btn btn-primary"
-                            onClick={e => this.save(e)}>
-                            Save
-                        </button>
-
-                        <button className="btn btn-secondary ml-2"
-                            onClick={e => this.clear(e)}>
-                            Cancel
-                        </button>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-
     load(user) {
         this.setState({ user })
-
     }
 
     remove(user) {
@@ -150,8 +106,15 @@ export default class UserCrud extends Component {
     render() {
         return (
             <Main {...headerProps}>
-                {this.renderForm()}
-                {this.renderTable()}
+                <UserForm 
+                    { ...this.state }
+                    updateField={(e) => this.updateField(e)}
+                    save={() => this.save()}
+                    clear={() => this.clear()} 
+                />
+                <UserTable 
+                    renderRows={this.renderRows()}
+                />
             </Main>
         )
     }
